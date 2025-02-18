@@ -139,9 +139,6 @@ namespace L250218
 
         public void RewnewMap(int _preX, int _preY, int _newX, int _newY)
         {
-            char preChar = map[_preY][_preX];
-            char nextChar = map[_newY][_newX];
-
             char keep = map[_preY][_preX];
 
             StringBuilder sb = new StringBuilder(map[_preY]);
