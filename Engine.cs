@@ -29,7 +29,7 @@ namespace L250218
             }
         }
 
-
+        bool isPlaying = false;
         GameObject[] gameObjecets;
         ConsoleKeyInfo keyInfo; //인풋에서 받아놓을것
         string[] map =
@@ -46,8 +46,8 @@ namespace L250218
             "*        *",
             "*    G   *",
             "**********"
-
         };
+
 
         public void GameLoad()
         {
@@ -86,8 +86,9 @@ namespace L250218
 
         public void GamePlay()
         {
+            isPlaying = true;
             Render(); //맵핑 먼저 하고 
-            while (true)
+            while (isPlaying)
             {
                 Input();
                 Update();
@@ -112,11 +113,16 @@ namespace L250218
         {
             for (int i = 0; i < gameObjecets.Length; i++)
             {
+                if (isPlaying == false)
+                {
+                    break;
+                }
+
                 gameObjecets[i].Update();
             }
         }
 
-        public bool IsCollisionWall(int _posX, int _posY)
+        public char CheckCollideObject(int _posX, int _posY)
         {
             //위치에 벽이 있냐 
             //Go[]배열에 해당 x, y가 *인지 만 알 수 있으면 좋은데 
@@ -127,19 +133,24 @@ namespace L250218
             //        return true;
             //    }
             //}
-            int index = 0;
-            for(int i = 0; i < _posY; i++)
-            {
-                index += map[i].Length; //맵에서 줄수만큼 더하고
-            }
-            index += _posX; //해당 줄수에서 x만큼 진행한거
-            char shape = gameObjecets[index].shape; //거기서 나온게 모양 
-            if (shape == '*')
-            {
-                return true;
-            }
-                
-            return false;
+
+            return map[_posY][_posX];
+        }
+
+        public void RewnewMap(int _preX, int _preY, int _newX, int _newY)
+        {
+            char preChar = map[_preY][_preX];
+            char nextChar = map[_newY][_newX];
+
+            char keep = map[_preY][_preX];
+
+            StringBuilder sb = new StringBuilder(map[_preY]);
+            sb[_preX] = map[_newY][_newX];
+            map[_preY] = sb.ToString();
+
+             sb = new StringBuilder(map[_newY]);
+            sb[_newX] = keep;
+            map[_newY] = sb.ToString();
         }
 
         private void Render()
@@ -149,6 +160,20 @@ namespace L250218
             {
                 gameObjecets[i].Render();
             }
+        }
+
+        public void GameOver()
+        {
+            isPlaying = false;
+            Console.WriteLine("게임 오버");
+            Console.ReadKey();
+        }
+
+        public void NextGame()
+        {
+            isPlaying = false;
+            Console.WriteLine("다음판");
+            Console.ReadKey();
         }
     }
 }

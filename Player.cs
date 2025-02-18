@@ -42,12 +42,27 @@ namespace L250218
             {
                 posX++;
             }
-            if(Engine.Instance.IsCollisionWall(posX, posY))
+
+            char shape = Engine.Instance.CheckCollideObject(posX, posY);
+            if (shape == '*')
             {
                 //충돌했으면 이동 못함
                 posX = preX;
                 posY = preY;
+                return;
             }
+            if( shape == 'M')
+            {
+                Engine.Instance.GameOver();
+                return;
+            }
+            if (shape == 'G')
+            {
+                Engine.Instance.NextGame();
+                return;
+            }
+            //무사히 이동했으면 맵 갱신
+            Engine.Instance.RewnewMap(preX, preY, posX, posY);
         }
     }
 }
