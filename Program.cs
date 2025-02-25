@@ -12,18 +12,27 @@
  */
 
 using System.Data;
+using System.Text;
 
 namespace L250218
 {
+    //Network 접속시 비밀번호 틀리던가 
+    public class CustomException : FileNotFoundException
+    {
+        public CustomException () : base("치치 내가 만든 파일 낫 ")
+        {
+
+        }
+    }
+
     public class Program
     {
         static void Main(string[] args)
         {
-           
             Engine engine = Engine.Instance; //유일한 Engine을 가져옴
             engine.GameLoad();  //준비하고
             engine.GamePlay();  //진행시키고
-        }
 
+        }
     }
 }

@@ -8,9 +8,9 @@ namespace L250218
 {
     public class Monster : GameObject
     {
-        public Monster(int _posX, int _posY, char _shape) : base(_posX, _posY, _shape)
+        public Monster(int _posX, int _posY, char _shape, int _orderLayer) : base(_posX, _posY, _shape,_orderLayer)
         {
-
+            collider = new ColliderComponent();
         }
 
         Random randomMove = new Random();
@@ -19,8 +19,15 @@ namespace L250218
             Move();
         }
 
+        private float moveTime = 0f;
         private void Move()
         {
+            moveTime += Time.deltaTime;
+            if (moveTime < 0.005f)
+            {
+                return;
+            }
+            moveTime += 0.005f;
             int move = randomMove.Next() % 4;
 
             int preX = posX;
@@ -42,22 +49,22 @@ namespace L250218
             {
                 posX++;
             }
-            char shape = Engine.Instance.CheckCollideObject(posX, posY);
-            if (shape == '*')
+            bool isCollide = collider.CheckCollideObject(posX, posY);
+            if (isCollide)
             {
-                //이동하려는곳이 벽이면 이동불가
+                //충돌했으면 이동 못함
                 posX = preX;
                 posY = preY;
                 return;
             }
-            if (shape == 'P')
-            {
-                //플레이어면 게임오버
-                Engine.Instance.GameOver();
-                return;
-            }
+            //if (shape == 'P')
+            //{
+            //    //플레이어면 게임오버
+            //    Engine.Instance.GameOver();
+            //    return;
+            //}
             //이동 했으면 맵 갱신 
-            Engine.Instance.RewnewMap(preX, preY, posX, posY);
+           // Engine.Instance.RewnewMap(preX, preY, posX, posY);
         }
     }
 }

@@ -8,14 +8,10 @@ namespace L250218
 {
     public class Floor : GameObject
     {
-        public Floor(int _posX, int _posY, char _shape): base(_posX, _posY, _shape)
+        public Floor(int _posX, int _posY, char _shape, int _orderLayer): base(_posX, _posY, _shape, _orderLayer)
         {
 
         }
-
-        public override void Render()
-        {
-            
-        }
+                
     }
 }
