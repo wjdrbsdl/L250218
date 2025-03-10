@@ -10,27 +10,18 @@ public class ColliderComponent
 {
     public bool CheckCollideObject(int _posX, int _posY)
     {
-        //위치에 벽이 있냐 
-        //Go[]배열에 해당 x, y가 *인지 만 알 수 있으면 좋은데 
-        //for (int i = 0; i < gameObjecets.Length; i++)
+        List<GameObject> objList = Engine.Instance.GameObjectList;
+        //for (int i = 0; i < Engine.Instance.GameObjectList.Count; i++)
         //{
-        //    if (gameObjecets[i].posX == _posX && gameObjecets[i].posY == _posY && gameObjecets[i].shape == '*')
+        //    if (objList[i].posX == _posX && objList[i].posY == _posY)
         //    {
-        //        return true;
+        //        if (objList[i].isCollide)
+        //        {
+        //            return true;
+        //        }
+               
         //    }
         //}
-        List<GameObject> objList = Engine.Instance.GameObjectList;
-        for (int i = 0; i < Engine.Instance.GameObjectList.Count; i++)
-        {
-            if (objList[i].posX == _posX && objList[i].posY == _posY)
-            {
-                if (objList[i].isCollide)
-                {
-                    return true;
-                }
-               
-            }
-        }
         return false;
     }
 }

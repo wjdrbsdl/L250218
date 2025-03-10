@@ -7,15 +7,7 @@ namespace L250218
     {
         public Player(int _posX, int _posY, char _shape, int _orderLayer, string _filename) : base(_posX, _posY, _shape, _orderLayer, _filename)
         {
-            collider = new ColliderComponent();
-            isAnimation = true;
-        }
 
-        protected override void SetColor()
-        {
-            colorKey.r = 255;
-            colorKey.g = 0;
-            colorKey.b = 255;
         }
 
         public override void Update()
@@ -28,41 +20,39 @@ namespace L250218
 
         private void Move()
         {
-            int preX = posX;
-            int preY = posY;
+            //int preX = posX;
+            //int preY = posY;
 
-            if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_w) || Engine.Instance.GetKeyDown(ConsoleKey.UpArrow))
-            {
-                spriteIndexY = 2;
-                posY--;
-            }
-            else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_s) || Engine.Instance.GetKeyDown(ConsoleKey.DownArrow))
-            {
-                spriteIndexY = 3;
-                posY++;
-            }
-            else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_a) || Engine.Instance.GetKeyDown(ConsoleKey.LeftArrow))
-            {
-                spriteIndexY = 0;
-                posX--;
-            }
-            else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_d) || Engine.Instance.GetKeyDown(ConsoleKey.RightArrow))
-            {
-                spriteIndexY = 1;
-                posX++;
-            }
+            //if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_w) || Engine.Instance.GetKeyDown(ConsoleKey.UpArrow))
+            //{
+            //    spriteIndexY = 2;
+            //    posY--;
+            //}
+            //else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_s) || Engine.Instance.GetKeyDown(ConsoleKey.DownArrow))
+            //{
+            //    spriteIndexY = 3;
+            //    posY++;
+            //}
+            //else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_a) || Engine.Instance.GetKeyDown(ConsoleKey.LeftArrow))
+            //{
+            //    spriteIndexY = 0;
+            //    posX--;
+            //}
+            //else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_d) || Engine.Instance.GetKeyDown(ConsoleKey.RightArrow))
+            //{
+            //    spriteIndexY = 1;
+            //    posX++;
+            //}
 
-            bool isCollide = collider.CheckCollideObject(posX, posY);
-            if (isCollide)
-            {
-                //충돌했으면 이동 못함
-                posX = preX;
-                posY = preY;
-                return;
-            }
+            //bool isCollide = collider.CheckCollideObject(posX, posY);
+            //if (isCollide)
+            //{
+            //    //충돌했으면 이동 못함
+            //    posX = preX;
+            //    posY = preY;
+            //    return;
+            //}
           
-            //무사히 이동했으면 맵 갱신
-           // Engine.Instance.RewnewMap(preX, preY, posX, posY);
         }
     }
 }

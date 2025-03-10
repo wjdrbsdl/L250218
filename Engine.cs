@@ -151,7 +151,7 @@ namespace L250218
                     }
                 }
             }
-            gameObjecets.Sort((a, b) => a.orderLayer.CompareTo(b.orderLayer));
+           // gameObjecets.Sort((a, b) => a.orderLayer.CompareTo(b.orderLayer));
         }
         #endregion 
 
@@ -233,7 +233,7 @@ namespace L250218
                 //개별적인 오브젝트들의 렌더링
                 //1. 하나씩 그리는거에서
                 //2. 버퍼에 기록하는걸로 수정 ?? 
-                gameObjecets[i].Render();
+               // gameObjecets[i].Render();
             }
             
             //back <-> frotn (flip)
