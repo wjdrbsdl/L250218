@@ -82,7 +82,7 @@ namespace L250218
 
         public virtual void Render()
         {
-            Engine.backBuffer[gameObject.transform.X, gameObject.transform.Y] = shape;
+            Engine.backBuffer[gameObject.transform.Y, gameObject.transform.X] = shape;
             SDL.SDL_RenderCopy(Engine.Instance.myBrush, myTexture, ref sourceRect, ref destiRect);
         }
 
