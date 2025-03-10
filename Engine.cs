@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SDL2;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,6 +60,36 @@ namespace L250218
         };
         #endregion
 
+        public IntPtr myWindowAddress;
+        public IntPtr myBrush;
+        public SDL.SDL_Event myEvent;
+
+        public bool Init()
+        {
+            if (SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING) < 0)
+            {
+                Console.WriteLine("Fail Init");
+                return false;
+            }
+
+            //아래 창 정보를 담은 메모리 의 C# 포인터형태로 인트 포인트라는걸 씀
+            myWindowAddress = SDL.SDL_CreateWindow(
+                "TileName",
+                100, 100,//시작점?
+                640, 480,//크기
+                SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN //윈도우 보여달라
+            ); //그리고나면 어딘가의 메모리에 들어간거고, 그 메모리 주소값을 반환함. 
+
+            myBrush = SDL.SDL_CreateRenderer(myWindowAddress,
+                -1, //그릴 순서
+                SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED | // 그래픽 카드 쓰겠다.
+                SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC | //주사율 맞추겟다.
+                SDL.SDL_RendererFlags.SDL_RENDERER_TARGETTEXTURE //일단 메모리에 넣어놓겠다.
+             );
+
+            return true;
+        }
+
         #region Load
         private string[] LoadMap(string _fileName)
         {
@@ -94,38 +125,30 @@ namespace L250218
                     char shape = map[y][x];
 
                     //바닥 무조건 추가 
-                    GameObject floorObj = new Floor(x, y, ' ', 0);
+                    GameObject floorObj = new Floor(x, y, ' ', 0, "floor");
                     gameObjecets.Add(floorObj);
 
                     GameObject gameObject = null;
                     if (shape == 'P')
                     {
-                        gameObject = new Player(x, y, shape, 4);
+                        gameObject = new Player(x, y, shape, 4, "player");
                     }
                     else if (shape == '*')
                     {
-                        gameObject = new Wall(x, y, shape, 1);
+                        gameObject = new Wall(x, y, shape, 1, "wall");
                     }
-                    //else if (shape == ' ')
-                    //{
-                    //    gameObject = new Floor(x, y, shape);
-                    //}
                     else if (shape == 'M')
                     {
-                        gameObject = new Monster(x, y, shape,3);
+                        gameObject = new Monster(x, y, shape, 3, "monster");
                     }
                     else if (shape == 'G')
                     {
-                        gameObject = new GameObject(x, y, shape, 2);
+                        gameObject = new Goal(x, y, shape, 2, "goal");
                     }
                     if(gameObject != null)
                     {
                         gameObjecets.Add(gameObject);
                     }
-                    
-          
-
-                   
                 }
             }
             gameObjecets.Sort((a, b) => a.orderLayer.CompareTo(b.orderLayer));
@@ -133,33 +156,30 @@ namespace L250218
         #endregion 
 
 
+
         public DateTime lastTime;
+
         public void GamePlay()
         {
-            float actTime = 1000.0f / 1.0f;
-            float curTime = 0.0f;
             Console.CursorVisible = false;
             isPlaying = true;
-            Render(); //맵핑 먼저 하고 
             while (isPlaying)
             {
+                SDL.SDL_PollEvent(out myEvent);
                 Time.Update(); //시간 변화시키기
-                if(curTime >= actTime)
+                switch (myEvent.type)
                 {
-                    Input();
-                    Update();
-                    Render();
-                    keyInfo = new ConsoleKeyInfo();
-                    curTime = 0;
+                    case SDL.SDL_EventType.SDL_QUIT:
+                        isPlaying = false;
+                        break;
                 }
-                else {
-                    curTime += Time.deltaTime;
-                }
-                
+                Update();
+                Render();
+              
             }
         }
 
-
+        #region 콘솔 인풋
         private void Input()
         {
             //입력받은거 저장해놓기
@@ -168,10 +188,22 @@ namespace L250218
                 keyInfo = Console.ReadKey(true);
             }
         }
+        #endregion
+
+        public bool GetKeyDown(SDL.SDL_Keycode _key)
+        {
+            if (myEvent.type == SDL.SDL_EventType.SDL_KEYDOWN)
+            {
+                return Engine.Instance.myEvent.key.keysym.sym == _key;
+            }
+            return false;
+        }
 
         public bool GetKeyDown(ConsoleKey _key)
         {
-            return _key == keyInfo.Key;
+         
+                return _key == keyInfo.Key;
+    
         }
 
 
@@ -192,7 +224,10 @@ namespace L250218
         static public char[,] frontBuffer = new char[20, 40];
         private void Render()
         {
-            //Console.Clear(); //이전거 지우고
+            //화면지우기
+            SDL.SDL_SetRenderDrawColor(myBrush, 0, 0, 0, 0);
+            SDL.SDL_RenderClear(myBrush);
+            
             for (int i = 0; i < gameObjecets.Count; i++)
             {
                 //개별적인 오브젝트들의 렌더링
@@ -216,6 +251,8 @@ namespace L250218
                     Console.Write(backBuffer[y,x]);
                 }
             }
+
+            SDL.SDL_RenderPresent(myBrush);
         }
 
         public void GameOver()
@@ -230,6 +267,18 @@ namespace L250218
             isPlaying = false;
             Console.WriteLine("다음판");
             Console.ReadKey();
+        }
+
+
+        public bool Quit()
+        {
+            SDL.SDL_DestroyRenderer(myBrush);
+            SDL.SDL_DestroyWindow(myWindowAddress);
+
+            SDL.SDL_Quit();
+            //sdl를 닫았다.
+
+            return true;
         }
     }
 }

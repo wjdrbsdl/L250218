@@ -1,16 +1,20 @@
-﻿using System;
+﻿using SDL2;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static SDL2.SDL;
 
 namespace L250218
 {
     public class Player : GameObject
     {
-        public Player(int _posX, int _posY, char _shape, int _orderLayer) : base(_posX,_posY,_shape, _orderLayer)
+        public Player(int _posX, int _posY, char _shape, int _orderLayer, string _filename) : base(_posX, _posY, _shape, _orderLayer, _filename)
         {
             collider = new ColliderComponent();
+            color = new SDL2.SDL.SDL_Color { r = 0, g = 255, b = 0, a = 0 };
+   
         }
 
         public override void Update()
@@ -26,19 +30,19 @@ namespace L250218
             int preX = posX;
             int preY = posY;
 
-            if (Engine.Instance.GetKeyDown(ConsoleKey.W) || Engine.Instance.GetKeyDown(ConsoleKey.UpArrow))
+            if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_w) || Engine.Instance.GetKeyDown(ConsoleKey.UpArrow))
             {
                 posY--;
             }
-            else if (Engine.Instance.GetKeyDown(ConsoleKey.S) || Engine.Instance.GetKeyDown(ConsoleKey.DownArrow))
+            else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_s) || Engine.Instance.GetKeyDown(ConsoleKey.DownArrow))
             {
                 posY++;
             }
-            else if (Engine.Instance.GetKeyDown(ConsoleKey.A ) || Engine.Instance.GetKeyDown(ConsoleKey.LeftArrow))
+            else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_a) || Engine.Instance.GetKeyDown(ConsoleKey.LeftArrow))
             {
                 posX--;
             }
-            else if (Engine.Instance.GetKeyDown(ConsoleKey.D) || Engine.Instance.GetKeyDown(ConsoleKey.RightArrow))
+            else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_d) || Engine.Instance.GetKeyDown(ConsoleKey.RightArrow))
             {
                 posX++;
             }

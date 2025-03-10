@@ -8,9 +8,10 @@ namespace L250218
 {
     public class Monster : GameObject
     {
-        public Monster(int _posX, int _posY, char _shape, int _orderLayer) : base(_posX, _posY, _shape,_orderLayer)
+        public Monster(int _posX, int _posY, char _shape, int _orderLayer, string _filename) : base(_posX, _posY, _shape,_orderLayer, _filename)
         {
             collider = new ColliderComponent();
+            color = new SDL2.SDL.SDL_Color { r = 255, g = 0, b = 0, a = 0 };
         }
 
         Random randomMove = new Random();
@@ -23,11 +24,11 @@ namespace L250218
         private void Move()
         {
             moveTime += Time.deltaTime;
-            if (moveTime < 0.005f)
+            if (moveTime < 300f)
             {
                 return;
             }
-            moveTime += 0.005f;
+            moveTime = 0; 
             int move = randomMove.Next() % 4;
 
             int preX = posX;
