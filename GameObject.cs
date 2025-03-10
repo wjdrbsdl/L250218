@@ -18,6 +18,15 @@ namespace L250218
             Init();
         }
 
+        public GameObject(int _posX, int _posY)
+        {
+            componentList = new();
+            Init();
+            transform.X = _posX;
+            transform.Y = _posY;
+
+        }
+
         public GameObject(int _posX, int _posY, char _shape, int _orderLayer, string _fileName)
         {
             //컴포넌트
