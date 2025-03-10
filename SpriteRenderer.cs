@@ -14,7 +14,7 @@ namespace L250218
         public SDL.SDL_Color color;
 
         public int orderLayer;
-        protected SDL.SDL_Color colorKey;
+        public SDL.SDL_Color colorKey;
         IntPtr mySurface;
         IntPtr myTexture;
 
@@ -35,8 +35,7 @@ namespace L250218
 
         public SpriteRenderer(string _fileName, bool _isAnimation = false)
         {
-            LoadBmp(_fileName);
-            isAnimation = _isAnimation;
+          
         }
 
         public override void Update()
@@ -86,9 +85,14 @@ namespace L250218
             SDL.SDL_RenderCopy(Engine.Instance.myBrush, myTexture, ref sourceRect, ref destiRect);
         }
 
-        public void LoadBmp(string _fileName)
+        public void LoadBmp(string _fileName, bool isAnim = false)
         {
-            mySurface = SDL.SDL_LoadBMP(_fileName);
+            //실행중에는 bin 파일
+            string projectFolder = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName; //현재 실행중인 디렉토리의 부모 파일 이름
+            fileName = projectFolder + "/data/" + _fileName;
+            isAnimation = isAnim;
+
+            mySurface = SDL.SDL_LoadBMP(fileName);
             unsafe
             {
                 //C로 되어있는 함수 사용하기 위해서
