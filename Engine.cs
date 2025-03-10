@@ -125,35 +125,63 @@ namespace L250218
                     char shape = map[y][x];
 
                     //바닥 무조건 추가 
-                    GameObject floorObj = new Floor(x, y, ' ', 0, "floor");
+                    GameObject floorObj = new GameObject(x, y);
+                    floorObj.Name = "Floor";
+                    SpriteRenderer renderF = floorObj.AddComponent(new SpriteRenderer());
+                    renderF.colorKey.r = 255;
+                    renderF.colorKey.g = 25;
+                    renderF.colorKey.b = 255;
+                    renderF.orderLayer = 0;
+                    renderF.LoadBmp("floor.bmp");
+                    renderF.shape = ' ';
                     gameObjecets.Add(floorObj);
 
-                    GameObject gameObject = new GameObject();
+                    GameObject gameObject = new GameObject(x, y);
+                    SpriteRenderer render = gameObject.AddComponent(new SpriteRenderer());
                     if (shape == 'P')
                     {
                         gameObject.AddComponent(new PlayerController());
                         gameObject.Name = "Player";
-                        SpriteRenderer render = gameObject.AddComponent(new SpriteRenderer());
                         render.colorKey.r = 255;
                         render.colorKey.g = 0;
                         render.colorKey.b = 255;
+                        render.orderLayer = 2;
                         render.LoadBmp("player.bmp", true);
                         render.shape = 'P';
-                        gameObject.transform.X = x;
-                        gameObject.transform.Y = y;
-
                     }
                     else if (shape == '*')
                     {
-                        gameObject = new Wall(x, y, shape, 1, "wall");
+                        gameObject.Name = "Wall";
+                        render.colorKey.r = 255;
+                        render.colorKey.g = 255;
+                        render.colorKey.b = 255;
+                        render.LoadBmp("wall.bmp");
+                        render.orderLayer = 1;
+                        render.shape = '*';
                     }
                     else if (shape == 'M')
                     {
-                        gameObject = new Monster(x, y, shape, 3, "monster");
+                        gameObject.Name = "Monster";
+                        render.colorKey.r = 255;
+                        render.colorKey.g = 255;
+                        render.colorKey.b = 255;
+                        render.LoadBmp("monster.bmp");
+                        render.orderLayer = 3;
+                        render.shape = 'M';
                     }
                     else if (shape == 'G')
                     {
-                        gameObject = new Goal(x, y, shape, 2, "goal");
+                        gameObject.Name = "Goal";
+                        render.colorKey.r = 255;
+                        render.colorKey.g = 255;
+                        render.colorKey.b = 255;
+                        render.orderLayer = 3;
+                        render.LoadBmp("goal.bmp");
+                        render.shape = 'G';
+                    }
+                    else if (shape == ' ')
+                    {
+                        continue;
                     }
                     if(gameObject != null)
                     {
@@ -161,7 +189,8 @@ namespace L250218
                     }
                 }
             }
-           // gameObjecets.Sort((a, b) => a.orderLayer.CompareTo(b.orderLayer));
+            gameObjecets.Sort((a, b) => a.GetComponet<SpriteRenderer>().orderLayer.
+            CompareTo(b.GetComponet<SpriteRenderer>().orderLayer));
         }
         #endregion 
 
@@ -221,12 +250,11 @@ namespace L250218
         {
             for (int i = 0; i < gameObjecets.Count; i++)
             {
-                if (isPlaying == false)
+                for (int x = 0; x < gameObjecets[i].componentList.Count; x++)
                 {
-                    break;
+                    gameObjecets[i].componentList[x].Update();
                 }
-
-                gameObjecets[i].Update();
+                
             }
         }
 
@@ -243,7 +271,11 @@ namespace L250218
                 //개별적인 오브젝트들의 렌더링
                 //1. 하나씩 그리는거에서
                 //2. 버퍼에 기록하는걸로 수정 ?? 
-               // gameObjecets[i].Render();
+               SpriteRenderer spriteRender = gameObjecets[i].GetComponet<SpriteRenderer>();
+                if(spriteRender != null)
+                {
+                    spriteRender.Render();
+                }
             }
             
             //back <-> frotn (flip)
