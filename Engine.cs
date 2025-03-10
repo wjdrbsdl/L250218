@@ -129,7 +129,7 @@ namespace L250218
                     floorObj.Name = "Floor";
                     SpriteRenderer renderF = floorObj.AddComponent(new SpriteRenderer());
                     renderF.colorKey.r = 255;
-                    renderF.colorKey.g = 25;
+                    renderF.colorKey.g = 255;
                     renderF.colorKey.b = 255;
                     renderF.orderLayer = 0;
                     renderF.LoadBmp("floor.bmp");
@@ -148,10 +148,13 @@ namespace L250218
                         render.orderLayer = 2;
                         render.LoadBmp("player.bmp", true);
                         render.shape = 'P';
+
+                        gameObject.AddComponent(new ColliderComponent());
                     }
                     else if (shape == '*')
                     {
                         gameObject.Name = "Wall";
+                        gameObject.isCollide = true;
                         render.colorKey.r = 255;
                         render.colorKey.g = 255;
                         render.colorKey.b = 255;
@@ -169,6 +172,7 @@ namespace L250218
                         render.LoadBmp("monster.bmp");
                         render.orderLayer = 3;
                         render.shape = 'M';
+                        gameObject.AddComponent(new ColliderComponent());
                     }
                     else if (shape == 'G')
                     {

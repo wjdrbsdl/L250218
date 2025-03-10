@@ -41,14 +41,14 @@ namespace L250218
             {
                 transform.X++;
             }
-            //bool isCollide = collider.CheckCollideObject(posX, posY);
-            //if (isCollide)
-            //{
-            //    //충돌했으면 이동 못함
-            //    posX = preX;
-            //    posY = preY;
-            //    return;
-            //}
+            ColliderComponent isCollide = GetComponet<ColliderComponent>();
+            if (isCollide.CheckCollideObject(transform.X, transform.Y))
+            {
+                //충돌했으면 이동 못함
+                transform.X = preX;
+                transform.Y = preY;
+                return;
+            }
 
         }
     }
