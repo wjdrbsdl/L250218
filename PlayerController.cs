@@ -12,28 +12,30 @@ namespace L250218
 
         private void Move()
         {
-            //int preX = posX;
-            //int preY = posY;
+            Transform transform = GetComponet<Transform>();
+            SpriteRenderer render = GetComponet<SpriteRenderer>();
+            int preX = transform.X;
+            int preY = transform.Y;
 
             if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_w) || Engine.Instance.GetKeyDown(ConsoleKey.UpArrow))
             {
-                //spriteIndexY = 2;
-                //posY--;
+                render.spriteIndexY = 2;
+                transform.Y--;
             }
             else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_s) || Engine.Instance.GetKeyDown(ConsoleKey.DownArrow))
             {
-                //spriteIndexY = 3;
-                //posY++;
+                render.spriteIndexY = 3;
+                transform.Y++;
             }
             else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_a) || Engine.Instance.GetKeyDown(ConsoleKey.LeftArrow))
             {
-                //spriteIndexY = 0;
-                //posX--;
+                render.spriteIndexY = 0;
+                transform.X--;
             }
             else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_d) || Engine.Instance.GetKeyDown(ConsoleKey.RightArrow))
             {
-                //spriteIndexY = 1;
-                //posX++;
+                render.spriteIndexY = 1;
+                transform.X++;
             }
 
             //bool isCollide = collider.CheckCollideObject(posX, posY);
