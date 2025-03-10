@@ -5,7 +5,7 @@ namespace L250218
     public class GameObject
     {
         public List<Component> componentList;
-    
+        public Transform transform;
         public bool isCollide;
         public bool isTrigger;
 
@@ -22,12 +22,13 @@ namespace L250218
 
         public void Init()
         {
-            AddComponent<Transform>(new Transform());
+            transform = AddComponent<Transform>(new Transform());
         }
 
         public T AddComponent<T>(T _addComponent) where T : Component
         {
             componentList.Add(_addComponent);
+            _addComponent.gameObject = this;
             return _addComponent;
         }
 
