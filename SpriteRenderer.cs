@@ -24,6 +24,10 @@ namespace L250218
 
         public string fileName;
         float renderDeltaTime = 0;
+
+        private SDL.SDL_Rect sourceRect;
+        private SDL.SDL_Rect destiRect;
+
         public SpriteRenderer()
         {
 
@@ -37,13 +41,9 @@ namespace L250218
 
         public override void Update()
         {
-        }
-
-        public virtual void Render()
-        {
-            int posX = 0;
-            int posY = 0;
-            SDL.SDL_Rect rect = new SDL.SDL_Rect { x = posX * size, y = posY * size, w = size, h = size };
+            int posX = gameObject.transform.X;
+            int posY = gameObject.transform.Y;
+            destiRect = new SDL.SDL_Rect { x = posX * size, y = posY * size, w = size, h = size };
             unsafe
             {
                 //C로 되어있는 함수 사용하기 위해서
@@ -52,7 +52,7 @@ namespace L250218
                 //ssd에 있던 그림을 cpu Ram으로 올려놓은 상태
                 SDL.SDL_Surface* surface = (SDL.SDL_Surface*)(mySurface);
 
-                SDL.SDL_Rect sorceRect = new SDL.SDL_Rect
+                sourceRect = new SDL.SDL_Rect
                 {
                     x = 0,
                     y = 0,
@@ -64,10 +64,10 @@ namespace L250218
                     renderDeltaTime += Time.deltaTime;
                     int sizeX = surface->w / 5;
                     int sizeY = surface->h / 5;
-                    sorceRect.x = spriteIndexX * sizeX;
-                    sorceRect.y = spriteIndexY * sizeY;
-                    sorceRect.w = sizeX;
-                    sorceRect.h = sizeY;
+                    sourceRect.x = spriteIndexX * sizeX;
+                    sourceRect.y = spriteIndexY * sizeY;
+                    sourceRect.w = sizeX;
+                    sourceRect.h = sizeY;
                     if (renderDeltaTime >= 1f)
                     {
                         spriteIndexX++;
@@ -77,8 +77,13 @@ namespace L250218
 
                 }
 
-                SDL.SDL_RenderCopy(Engine.Instance.myBrush, myTexture, ref sorceRect, ref rect);
+
             }
+        }
+
+        public virtual void Render()
+        {
+            SDL.SDL_RenderCopy(Engine.Instance.myBrush, myTexture, ref sourceRect, ref destiRect);
         }
 
         public void LoadBmp(string _fileName)
