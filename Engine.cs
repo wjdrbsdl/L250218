@@ -162,6 +162,7 @@ namespace L250218
                     else if (shape == 'M')
                     {
                         gameObject.Name = "Monster";
+                        gameObject.AddComponent(new MonsterMove());
                         render.colorKey.r = 255;
                         render.colorKey.g = 255;
                         render.colorKey.b = 255;
