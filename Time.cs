@@ -12,7 +12,7 @@ namespace L250218
         {
             get
             {
-                return (float)deltaTimeSpan.TotalMilliseconds;
+                return (float)deltaTimeSpan.TotalMilliseconds*0.01f;
             }
         }
 

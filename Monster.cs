@@ -24,7 +24,7 @@ namespace L250218
         private void Move()
         {
             moveTime += Time.deltaTime;
-            if (moveTime < 300f)
+            if (moveTime < 3f)
             {
                 return;
             }

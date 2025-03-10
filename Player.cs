@@ -14,7 +14,14 @@ namespace L250218
         {
             collider = new ColliderComponent();
             color = new SDL2.SDL.SDL_Color { r = 0, g = 255, b = 0, a = 0 };
-   
+            isAnimation = true;
+        }
+
+        protected override void SetColor()
+        {
+            colorKey.r = 255;
+            colorKey.g = 0;
+            colorKey.b = 255;
         }
 
         public override void Update()
@@ -32,18 +39,22 @@ namespace L250218
 
             if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_w) || Engine.Instance.GetKeyDown(ConsoleKey.UpArrow))
             {
+                spriteIndexY = 2;
                 posY--;
             }
             else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_s) || Engine.Instance.GetKeyDown(ConsoleKey.DownArrow))
             {
+                spriteIndexY = 3;
                 posY++;
             }
             else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_a) || Engine.Instance.GetKeyDown(ConsoleKey.LeftArrow))
             {
+                spriteIndexY = 0;
                 posX--;
             }
             else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_d) || Engine.Instance.GetKeyDown(ConsoleKey.RightArrow))
             {
+                spriteIndexY = 1;
                 posX++;
             }
 
