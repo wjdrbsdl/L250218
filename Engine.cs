@@ -128,10 +128,20 @@ namespace L250218
                     GameObject floorObj = new Floor(x, y, ' ', 0, "floor");
                     gameObjecets.Add(floorObj);
 
-                    GameObject gameObject = null;
+                    GameObject gameObject = new GameObject();
                     if (shape == 'P')
                     {
-                        gameObject = new Player(x, y, shape, 4, "player");
+                        gameObject.AddComponent(new PlayerController());
+                        gameObject.Name = "Player";
+                        SpriteRenderer render = gameObject.AddComponent(new SpriteRenderer());
+                        render.colorKey.r = 255;
+                        render.colorKey.g = 0;
+                        render.colorKey.b = 255;
+                        render.LoadBmp("player.bmp", true);
+                        render.shape = 'P';
+                        gameObject.transform.X = x;
+                        gameObject.transform.Y = y;
+
                     }
                     else if (shape == '*')
                     {
