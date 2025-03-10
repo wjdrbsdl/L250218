@@ -38,6 +38,19 @@ namespace L250218
             return _addComponent;
         }
 
+        public T GetComponet<T>() where T : Component
+        {
+            foreach (Component component in componentList)
+            {
+                if (component is T)
+                {
+                    return component as T;
+                }
+            }
+
+            return null;
+        }
+
         public virtual void Update()
         {
             
