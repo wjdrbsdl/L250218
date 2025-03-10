@@ -12,6 +12,12 @@ namespace L250218
         public string Name;
         public static int objectCount = 0;
 
+        public GameObject()
+        {
+            componentList = new();
+            Init();
+        }
+
         public GameObject(int _posX, int _posY, char _shape, int _orderLayer, string _fileName)
         {
             //컴포넌트
