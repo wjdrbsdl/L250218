@@ -1,9 +1,4 @@
-﻿using SDL2;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using static SDL2.SDL;
 
 namespace L250218
@@ -13,7 +8,6 @@ namespace L250218
         public Player(int _posX, int _posY, char _shape, int _orderLayer, string _filename) : base(_posX, _posY, _shape, _orderLayer, _filename)
         {
             collider = new ColliderComponent();
-            color = new SDL2.SDL.SDL_Color { r = 0, g = 255, b = 0, a = 0 };
             isAnimation = true;
         }
 

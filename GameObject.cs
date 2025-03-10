@@ -1,14 +1,10 @@
 ﻿using SDL2;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace L250218
 {
     public class GameObject
     {
+        public List<Component> componentList;
         public int posX;
         public int posY;
         public char shape;
@@ -34,6 +30,7 @@ namespace L250218
             posY = _posY;
             shape = _shape;
             orderLayer = _orderLayer;
+            componentList = new();
             LoadBmp("data/"+ _fileName+".bmp");
         }
 
@@ -112,5 +109,10 @@ namespace L250218
 
         }
 
+        public T AddComponent<T>(T _addComponent) where T : Component
+        {
+            componentList.Add(_addComponent);
+            return _addComponent;
+        }
     }
 }
