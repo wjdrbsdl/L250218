@@ -12,6 +12,7 @@ namespace L250218
         public string Name;
         public static int objectCount = 0;
 
+        #region 생성자
         public GameObject()
         {
             componentList = new();
@@ -34,6 +35,8 @@ namespace L250218
             Init();
             
         }
+        #endregion
+
 
         public void Init()
         {
@@ -59,12 +62,6 @@ namespace L250218
 
             return null;
         }
-
-        public virtual void Update()
-        {
-            
-        }
-
         
     }
 }
