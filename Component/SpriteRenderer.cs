@@ -80,7 +80,7 @@ namespace L250218
             }
         }
 
-        public virtual void Render()
+        public void Render()
         {
             Engine.backBuffer[gameObject.transform.Y, gameObject.transform.X] = shape;
             SDL.SDL_RenderCopy(Engine.Instance.myBrush, myTexture, ref sourceRect, ref destiRect);

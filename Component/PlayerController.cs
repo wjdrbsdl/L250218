@@ -5,6 +5,11 @@ namespace L250218
 {
     public class PlayerController : Component
     {
+        SpriteRenderer render;
+        public override void Awake()
+        {
+            render = GetComponet<SpriteRenderer>();
+        }
         public override void Update()
         {
             Move();
@@ -13,7 +18,7 @@ namespace L250218
         private void Move()
         {
             Transform transform = GetComponet<Transform>();
-            SpriteRenderer render = GetComponet<SpriteRenderer>();
+            
             int preX = transform.X;
             int preY = transform.Y;
 

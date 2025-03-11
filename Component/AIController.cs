@@ -2,9 +2,13 @@
 
 namespace L250218
 {
-    public class MonsterMove : Component
+    public class AIController : Component
     {
-       
+     
+        public AIController()
+        {
+
+        }
         Random randomMove = new Random();
         public override void Update()
         {

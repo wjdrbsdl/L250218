@@ -3,6 +3,7 @@ using L250218;
 
 public abstract class Component
 {
+    public Transform transform;
     public virtual void Awake()
     {
 

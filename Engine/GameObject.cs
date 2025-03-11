@@ -47,6 +47,7 @@ namespace L250218
         {
             componentList.Add(_addComponent);
             _addComponent.gameObject = this;
+            _addComponent.transform = transform;
             return _addComponent;
         }
 

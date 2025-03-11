@@ -165,7 +165,7 @@ namespace L250218
                     else if (shape == 'M')
                     {
                         gameObject.Name = "Monster";
-                        gameObject.AddComponent(new MonsterMove());
+                        gameObject.AddComponent(new AIController());
                         render.colorKey.r = 255;
                         render.colorKey.g = 255;
                         render.colorKey.b = 255;
@@ -194,12 +194,58 @@ namespace L250218
                     }
                 }
             }
-            gameObjecets.Sort((a, b) => a.GetComponet<SpriteRenderer>().orderLayer.
-            CompareTo(b.GetComponet<SpriteRenderer>().orderLayer));
+
+            //오브젝트들 정렬
+            sortCompare = Compare;
+            Sort();
+
+            //오브젝트들 Awake
+            Awake();
         }
-        #endregion 
+       
+        private void Awake()
+        {
+            foreach (var item in gameObjecets)
+            {
+                foreach (Component component in item.componentList)
+                {
+                    component.Awake();
+                }
+            }
+        }
 
+        private void Sort()
+        {
+            for (int i = 0; i < gameObjecets.Count-1; i++)
+            {
+                for (int j = i+1; j < gameObjecets.Count; j++)
+                {
+                   if(sortCompare(gameObjecets[i], gameObjecets[j]) > 0)
+                    {
+                        GameObject temp = gameObjecets[i];
+                        gameObjecets[i] = gameObjecets[j];
+                        gameObjecets[j] = temp;
+                    }
+                }
+              
+            }
+            
+        }
 
+        private int Compare(GameObject first, GameObject second)
+        {
+            SpriteRenderer firstRender = first.GetComponet<SpriteRenderer>();
+            SpriteRenderer secondRender = second.GetComponet<SpriteRenderer>();
+            if(firstRender == null || secondRender == null)
+            {
+                return 0;
+            }
+            return firstRender.orderLayer - secondRender.orderLayer;
+        }
+
+        public delegate int SortCompare(GameObject first, GameObject second);
+        public SortCompare sortCompare;
+        #endregion
 
         public DateTime lastTime;
 
