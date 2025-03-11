@@ -4,12 +4,14 @@ namespace L250218
 {
     public class AIController : Component
     {
-     
-        public AIController()
-        {
-
-        }
         Random randomMove = new Random();
+        CharactorCollider2D charCollider2D;
+
+        public override void Awake()
+        {
+            charCollider2D = GetComponet<CharactorCollider2D>();
+        }
+
         public override void Update()
         {
             Move();
@@ -25,35 +27,27 @@ namespace L250218
             }
             moveTime = 0; 
             int move = randomMove.Next() % 4;
-            Transform transform = GetComponet<Transform>();
+    
             int preX = transform.X;
             int preY = transform.Y;
 
             if (move == 0)
             {
-                transform.Y--;
+                charCollider2D.Move(0, -1);
             }
             if (move == 1)
             {
-                transform.Y++;
+                charCollider2D.Move(0, 1);
             }
             if (move == 2)
             {
-                transform.X--;
+                charCollider2D.Move(-1, 0);
             }
             if (move == 3)
             {
-                transform.X++;
+                charCollider2D.Move(1, 0);
             }
-            ColliderComponent isCollide = GetComponet<ColliderComponent>();
-            if (isCollide.CheckCollideObject(transform.X, transform.Y))
-            {
-                //충돌했으면 이동 못함
-                transform.X = preX;
-                transform.Y = preY;
-                return;
-            }
-
+      
         }
     }
 }

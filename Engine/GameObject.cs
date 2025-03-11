@@ -41,6 +41,7 @@ namespace L250218
         public void Init()
         {
             transform = AddComponent<Transform>(new Transform());
+            transform.transform = transform;
         }
 
         public T AddComponent<T>(T _addComponent) where T : Component

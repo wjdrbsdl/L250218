@@ -32,13 +32,13 @@ namespace L250218
         }
 
         bool isPlaying = false;
-        List<GameObject> gameObjecets = new List<GameObject>();
+        List<GameObject> gameObjects = new List<GameObject>();
 
         public List<GameObject> GameObjectList
         {
             get
             {
-                return gameObjecets;
+                return gameObjects;
             }
         }
 
@@ -117,7 +117,7 @@ namespace L250218
             //맵을 보고 오브젝트들을 생성, 위치와 모양을 입력
             Console.WriteLine(map[0].Length);
             map = LoadMap("level01.map");
-            gameObjecets = new();
+            gameObjects = new();
             for (int y = 0; y < map.Length; y++)
             {
                 for (int x = 0; x < map[y].Length; x++)
@@ -134,7 +134,7 @@ namespace L250218
                     renderF.orderLayer = 0;
                     renderF.LoadBmp("floor.bmp");
                     renderF.shape = ' ';
-                    gameObjecets.Add(floorObj);
+                    gameObjects.Add(floorObj);
 
                     GameObject gameObject = new GameObject(x, y);
                     SpriteRenderer render = gameObject.AddComponent(new SpriteRenderer());
@@ -149,7 +149,7 @@ namespace L250218
                         render.LoadBmp("player.bmp", true);
                         render.shape = 'P';
 
-                        gameObject.AddComponent(new ColliderComponent());
+                        gameObject.AddComponent(new CharactorCollider2D());
                     }
                     else if (shape == '*')
                     {
@@ -161,6 +161,8 @@ namespace L250218
                         render.LoadBmp("wall.bmp");
                         render.orderLayer = 1;
                         render.shape = '*';
+
+                        gameObject.AddComponent(new BoxCollider2D());
                     }
                     else if (shape == 'M')
                     {
@@ -172,7 +174,7 @@ namespace L250218
                         render.LoadBmp("monster.bmp");
                         render.orderLayer = 3;
                         render.shape = 'M';
-                        gameObject.AddComponent(new ColliderComponent());
+                        gameObject.AddComponent(new CharactorCollider2D());
                     }
                     else if (shape == 'G')
                     {
@@ -190,7 +192,7 @@ namespace L250218
                     }
                     if(gameObject != null)
                     {
-                        gameObjecets.Add(gameObject);
+                        gameObjects.Add(gameObject);
                     }
                 }
             }
@@ -205,7 +207,7 @@ namespace L250218
        
         private void Awake()
         {
-            foreach (var item in gameObjecets)
+            foreach (var item in gameObjects)
             {
                 foreach (Component component in item.componentList)
                 {
@@ -216,15 +218,15 @@ namespace L250218
 
         private void Sort()
         {
-            for (int i = 0; i < gameObjecets.Count-1; i++)
+            for (int i = 0; i < gameObjects.Count-1; i++)
             {
-                for (int j = i+1; j < gameObjecets.Count; j++)
+                for (int j = i+1; j < gameObjects.Count; j++)
                 {
-                   if(sortCompare(gameObjecets[i], gameObjecets[j]) > 0)
+                   if(sortCompare(gameObjects[i], gameObjects[j]) > 0)
                     {
-                        GameObject temp = gameObjecets[i];
-                        gameObjecets[i] = gameObjecets[j];
-                        gameObjecets[j] = temp;
+                        GameObject temp = gameObjects[i];
+                        gameObjects[i] = gameObjects[j];
+                        gameObjects[j] = temp;
                     }
                 }
               
@@ -299,11 +301,11 @@ namespace L250218
 
         private void Update()
         {
-            for (int i = 0; i < gameObjecets.Count; i++)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
-                for (int x = 0; x < gameObjecets[i].componentList.Count; x++)
+                for (int x = 0; x < gameObjects[i].componentList.Count; x++)
                 {
-                    gameObjecets[i].componentList[x].Update();
+                    gameObjects[i].componentList[x].Update();
                 }
                 
             }
@@ -317,12 +319,12 @@ namespace L250218
             SDL.SDL_SetRenderDrawColor(myBrush, 0, 0, 0, 0);
             SDL.SDL_RenderClear(myBrush);
             
-            for (int i = 0; i < gameObjecets.Count; i++)
+            for (int i = 0; i < gameObjects.Count; i++)
             {
                 //개별적인 오브젝트들의 렌더링
                 //1. 하나씩 그리는거에서
                 //2. 버퍼에 기록하는걸로 수정 ?? 
-               SpriteRenderer spriteRender = gameObjecets[i].GetComponet<SpriteRenderer>();
+               SpriteRenderer spriteRender = gameObjects[i].GetComponet<SpriteRenderer>();
                 if(spriteRender != null)
                 {
                     spriteRender.Render();

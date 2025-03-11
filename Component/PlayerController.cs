@@ -6,9 +6,11 @@ namespace L250218
     public class PlayerController : Component
     {
         SpriteRenderer render;
+        CharactorCollider2D charControl;
         public override void Awake()
         {
             render = GetComponet<SpriteRenderer>();
+            charControl = GetComponet<CharactorCollider2D>();
         }
         public override void Update()
         {
@@ -24,33 +26,42 @@ namespace L250218
             if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_w) || Engine.Instance.GetKeyDown(ConsoleKey.UpArrow))
             {
                 render.spriteIndexY = 2;
-                transform.Y--;
+                charControl.Move(0,-1);
             }
             else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_s) || Engine.Instance.GetKeyDown(ConsoleKey.DownArrow))
             {
                 render.spriteIndexY = 3;
-                transform.Y++;
+       
+                charControl.Move(0,1);
             }
             else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_a) || Engine.Instance.GetKeyDown(ConsoleKey.LeftArrow))
             {
                 render.spriteIndexY = 0;
-                transform.X--;
+      
+                charControl.Move(-1, 0);
             }
             else if (Engine.Instance.GetKeyDown(SDL_Keycode.SDLK_d) || Engine.Instance.GetKeyDown(ConsoleKey.RightArrow))
             {
                 render.spriteIndexY = 1;
-                transform.X++;
+        
+                charControl.Move(1, 0);
             }
 
-            ColliderComponent collider = GetComponet<ColliderComponent>();
-            bool isCollide = collider.CheckCollideObject(transform.X, transform.Y);
-            if (isCollide)
-            {
-                //충돌했으면 이동 못함
-                transform.X = preX;
-                transform.Y = preY;
-                return;
-            }
+            ////ColliderComponent collider = GetComponet<ColliderComponent>();
+            ////bool isCollide = collider.CheckCollideObject(transform.X, transform.Y);
+            ////if (isCollide)
+            ////{
+            ////    //충돌했으면 이동 못함
+            ////    transform.X = preX;
+            ////    transform.Y = preY;
+            ////    return;
+            ////}
+            //if(charControl.IsCollider(transform.X, transform.Y) == true)
+            //{
+            //    transform.X = preX;
+            //    transform.Y = preY;
+            //    return;
+            //}
 
         }
     }
