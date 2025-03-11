@@ -17,8 +17,7 @@ namespace L250218
 
         private void Move()
         {
-            Transform transform = GetComponet<Transform>();
-            
+                 
             int preX = transform.X;
             int preY = transform.Y;
 
