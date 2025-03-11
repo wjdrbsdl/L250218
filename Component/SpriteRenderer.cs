@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace L250218
 {
-    public class SpriteRenderer : Component
+    public class SpriteRenderer : Renderer
     {
         public char shape;
         private int size = 35;
@@ -33,6 +33,10 @@ namespace L250218
 
         }
 
+        ~SpriteRenderer()
+        {
+            SDL.SDL_DestroyTexture(myTexture);
+        }
         public SpriteRenderer(string _fileName, bool _isAnimation = false)
         {
           
@@ -80,7 +84,7 @@ namespace L250218
             }
         }
 
-        public void Render()
+        public override void Render()
         {
             Engine.backBuffer[gameObject.transform.Y, gameObject.transform.X] = shape;
             SDL.SDL_RenderCopy(Engine.Instance.myBrush, myTexture, ref sourceRect, ref destiRect);

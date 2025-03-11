@@ -60,6 +60,7 @@ namespace L250218
         };
         #endregion
 
+        public IntPtr myFont;
         public IntPtr myWindowAddress;
         public IntPtr myBrush;
         public SDL.SDL_Event myEvent;
@@ -86,6 +87,14 @@ namespace L250218
                 SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC | //주사율 맞추겟다.
                 SDL.SDL_RendererFlags.SDL_RENDERER_TARGETTEXTURE //일단 메모리에 넣어놓겠다.
              );
+
+            //폰트 정보 가져오라고 초기화
+            SDL_ttf.TTF_Init();
+            string projectFolder = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            //SDL_ttf.TTF_OpenFont(projectFolder + "/data/", 30);
+            myFont =  SDL_ttf.TTF_OpenFont("c:/Windows/Fonts/gulim.ttc", 30);
+
+
 
             return true;
         }
@@ -202,8 +211,9 @@ namespace L250218
 
             GameObject gameManager = new GameObject();
             gameManager.AddComponent(new GameManager());
-            gameObjects.Add(gameManager);
             gameManager.Name = "GameManager";
+            gameObjects.Add(gameManager);
+            
             //오브젝트들 정렬
             sortCompare = Compare;
             Sort();
@@ -331,7 +341,7 @@ namespace L250218
                 //개별적인 오브젝트들의 렌더링
                 //1. 하나씩 그리는거에서
                 //2. 버퍼에 기록하는걸로 수정 ?? 
-               SpriteRenderer spriteRender = gameObjects[i].GetComponet<SpriteRenderer>();
+                Renderer spriteRender = gameObjects[i].GetComponet<Renderer>();
                 if(spriteRender != null)
                 {
                     spriteRender.Render();
@@ -374,6 +384,7 @@ namespace L250218
 
         public bool Quit()
         {
+            SDL_ttf.TTF_Quit();
             SDL.SDL_DestroyRenderer(myBrush);
             SDL.SDL_DestroyWindow(myWindowAddress);
 
