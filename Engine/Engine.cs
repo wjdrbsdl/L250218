@@ -174,10 +174,13 @@ namespace L250218
                         render.LoadBmp("monster.bmp");
                         render.orderLayer = 3;
                         render.shape = 'M';
-                        gameObject.AddComponent(new CharactorCollider2D());
+                        CharactorCollider2D col = gameObject.AddComponent(new CharactorCollider2D());
+                        col.isTrigger = true;
                     }
                     else if (shape == 'G')
                     {
+                        GoalCollider2D goalCollider = gameObject.AddComponent(new GoalCollider2D());
+                        goalCollider.isTrigger = true;
                         gameObject.Name = "Goal";
                         render.colorKey.r = 255;
                         render.colorKey.g = 255;
@@ -197,6 +200,10 @@ namespace L250218
                 }
             }
 
+            GameObject gameManager = new GameObject();
+            gameManager.AddComponent(new GameManager());
+            gameObjects.Add(gameManager);
+            gameManager.Name = "GameManager";
             //오브젝트들 정렬
             sortCompare = Compare;
             Sort();

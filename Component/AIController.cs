@@ -49,5 +49,10 @@ namespace L250218
             }
       
         }
+
+        public void OnTriggerEnter(GameObject _other)
+        {
+            Console.WriteLine("몬스터도 부딪혔음" + _other.Name);
+        }
     }
 }

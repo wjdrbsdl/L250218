@@ -1,4 +1,5 @@
 ﻿using SDL2;
+using System.Reflection;
 
 namespace L250218
 {
@@ -40,8 +41,9 @@ namespace L250218
 
         public void Init()
         {
-            transform = AddComponent<Transform>(new Transform());
-            transform.transform = transform;
+            transform = new Transform();
+            AddComponent<Transform>(new Transform());
+            //transform.transform = transform;
         }
 
         public T AddComponent<T>(T _addComponent) where T : Component
@@ -65,5 +67,36 @@ namespace L250218
             return null;
         }
         
+        public void ExcuteMethod(string _methodName, object[] _param)
+        {
+            foreach (var component in componentList)
+            {
+                //해당 오브젝트가 가진 컴포넌트를 모두 본다
+                Type type = component.GetType();
+                //함수 다 가져옴
+                MethodInfo[] methodes = type.GetMethods(BindingFlags.Public 
+                    | BindingFlags.NonPublic | BindingFlags.Instance);
+                foreach (var method in methodes)
+                {
+                    if (method.Name.CompareTo(_methodName) == 0)
+                    {
+                        method.Invoke(component, _param);
+                    }
+                }
+
+            }
+        }
+
+        public static GameObject Find(string _goName)
+        {
+            foreach (var go in Engine.Instance.GameObjectList)
+            {
+                if(go.Name.CompareTo(_goName) == 0)
+                {
+                    return go;
+                }
+            }
+            return null;
+        }
     }
 }

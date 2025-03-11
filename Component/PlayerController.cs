@@ -47,22 +47,18 @@ namespace L250218
                 charControl.Move(1, 0);
             }
 
-            ////ColliderComponent collider = GetComponet<ColliderComponent>();
-            ////bool isCollide = collider.CheckCollideObject(transform.X, transform.Y);
-            ////if (isCollide)
-            ////{
-            ////    //충돌했으면 이동 못함
-            ////    transform.X = preX;
-            ////    transform.Y = preY;
-            ////    return;
-            ////}
-            //if(charControl.IsCollider(transform.X, transform.Y) == true)
-            //{
-            //    transform.X = preX;
-            //    transform.Y = preY;
-            //    return;
-            //}
+           
+        }
 
+        public void OnTriggerEnter(GameObject _other)
+        {
+            Console.WriteLine("충돌" + _other.Name);
+
+            if (_other.Name == "Goal")
+            {
+                GameObject.Find("GameManager").GetComponet<GameManager>().isFinish = true;
+            }
         }
     }
+
 }
